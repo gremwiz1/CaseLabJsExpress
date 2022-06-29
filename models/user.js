@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  balance: {
+    type: Number,
+    default: 0,
+  },
 });
 // eslint-disable-next-line func-names
 userSchema.statics.findUserByCredentials = function (email, password) {

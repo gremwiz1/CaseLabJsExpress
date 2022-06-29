@@ -39,6 +39,24 @@ module.exports.updateUser = (req, res, next) => {
       }
     });
 };
+module.exports.changeBalanceUser = (req, res, next) => {
+  const { name, email, balance } = req.body;
+  User.findByIdAndUpdate(req.user._id, { name, email, balance },
+    { new: true, runValidators: true, upsert: true })
+    .orFail(new Error("NotValidIdUser"))
+    .then((user) => {
+      res.status(200).send(user);
+    })
+    .catch((err) => {
+      if (err.message === "NotValidIdUser") {
+        next(new NotFoundError(ANSWER.UserNotFound));
+      } else if (err.name === "ValidationError") {
+        next(new BadRequestError(ANSWER.BadRequest));
+      } else {
+        next(err);
+      }
+    });
+};
 module.exports.createUser = (req, res, next) => {
   const {
     name, email, password,
