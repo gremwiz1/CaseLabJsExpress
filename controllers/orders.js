@@ -1,7 +1,10 @@
 const Order = require("../models/order");
+const User = require("../models/user");
+const Product = require("../models/product");
 const BadRequestError = require("../errors/bad-request-err");
 const NotFoundError = require("../errors/not-found-err");
 const ForbiddenError = require("../errors/forbidden-err");
+const PaymentRequiredError = require("../errors/payment-required-err");
 const ANSWER = require("../utils/answers");
 
 module.exports.getAllOrders = (req, res, next) => {
@@ -27,13 +30,53 @@ module.exports.createOrder = (req, res, next) => {
   const {
     orderPerson, comment, orderProducts, orderPrice,
   } = req.body;
-  Order.create({
-    orderPerson, comment, orderProducts, orderPrice,
-  })
-    .then((order) => res.status(200).send(order))
+  User.findById(orderPerson)
+    .orFail(new Error("NotValidIdUser"))
+    .then((user) => {
+      if (user.balance < orderPrice) {
+        next(new PaymentRequiredError(ANSWER.UserNotEnoughBalance));
+      } else {
+        // eslint-disable-next-line no-restricted-syntax
+        for (const product of orderProducts) {
+          Product.findById(product.idProduct)
+            .orFail(new Error("NotValidIdProduct"))
+            .then((goods) => {
+              if (product.quantity > goods.quantity) {
+                next(new BadRequestError(ANSWER.ProductNotEnoughQuantity));
+              }
+            })
+            .catch((err) => {
+              if (err.message === "NotValidIdProduct") {
+                next(new NotFoundError(ANSWER.NotFoundProduct));
+              } else {
+                next(err);
+              }
+            });
+        }
+        Order.create({
+          orderPerson, comment, orderProducts, orderPrice,
+        })
+          .then((order) => {
+            User.updateOne({ _id: orderPerson }, { $inc: { balance: -orderPrice } });
+            // eslint-disable-next-line no-restricted-syntax
+            for (const product of orderProducts) {
+              Product.updateOne({ _id: product.idProduct },
+                { $inc: { quantity: -product.quantity } });
+            }
+            res.status(200).send(order);
+          })
+          .catch((err) => {
+            if (err.name === "ValidationError") {
+              next(new BadRequestError(ANSWER.BadRequest));
+            } else {
+              next(err);
+            }
+          });
+      }
+    })
     .catch((err) => {
-      if (err.name === "ValidationError") {
-        next(new BadRequestError(ANSWER.BadRequest));
+      if (err.message === "NotValidIdUser") {
+        next(new NotFoundError(ANSWER.UserNotFound));
       } else {
         next(err);
       }

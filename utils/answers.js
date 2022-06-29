@@ -20,5 +20,7 @@ const ANSWER = {
   OrderSuccessDelete: "Заказ успешно удален",
   ForbiddenDeleteOrder: "У вас нет прав удалить заказ",
   ForbiddenGetAllOrders: "У вас нет прав просматривать все заказы",
+  UserNotEnoughBalance: "У вас не хватает баланса для оплаты заказа",
+  ProductNotEnoughQuantity: "Не хватает товара на складе",
 };
 module.exports = ANSWER;
