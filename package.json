@@ -1,0 +1,29 @@
+{
+  "name": "express_case_lab_js",
+  "author": "Gremwiz",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "celebrate": "^15.0.1",
+    "express": "^4.18.1",
+    "express-rate-limit": "^6.4.0",
+    "express-winston": "^4.2.0",
+    "helmet": "^5.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.5",
+    "validator": "^13.7.0",
+    "winston": "^3.8.0"
+  },
+  "scripts": {
+    "lint": "npx eslint .",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "nodemon": "^2.0.12"
+  }
+}
