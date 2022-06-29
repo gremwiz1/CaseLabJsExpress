@@ -29,6 +29,7 @@ router.patch("/api/order/:orderId", celebrate({
     comment: Joi.string(),
     orderPrice: Joi.number().required(),
     check: Joi.boolean(),
+    orderStatus: Joi.number(),
   }),
 }), updateOrder);
 router.delete("/api/order/:orderId", celebrate({

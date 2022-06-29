@@ -31,5 +31,16 @@ const orderSchema = new mongoose.Schema({
   orderProducts: [
     productsSchema,
   ],
+  /*
+      0 — новый
+      1 — Принят, готовится
+      2 - У курьера
+      3 - Выдан
+      7 — отменён
+    */
+  orderStatus: {
+    type: Number,
+    default: 0,
+  },
 });
 module.exports = mongoose.model("order", orderSchema);

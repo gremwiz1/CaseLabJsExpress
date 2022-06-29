@@ -41,12 +41,12 @@ module.exports.createOrder = (req, res, next) => {
 };
 module.exports.updateOrder = (req, res, next) => {
   const {
-    orderPerson, comment, orderProducts, orderPrice, check,
+    orderPerson, comment, orderProducts, orderPrice, check, orderStatus,
   } = req.body;
   if (req.user.isAdmin) {
     Order.findByIdAndUpdate(req.orderId,
       {
-        orderPerson, comment, orderProducts, orderPrice, check,
+        orderPerson, comment, orderProducts, orderPrice, check, orderStatus,
       },
       { new: true, runValidators: true, upsert: true })
       .orFail(new Error("NotValidIdOrder"))
