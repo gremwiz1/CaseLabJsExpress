@@ -10,7 +10,7 @@ router.get("/api/allOrders", getAllOrders);
 router.post("/api/order", celebrate({
   body: Joi.object().keys({
     orderPerson: Joi.string().length(24).hex(),
-    orderProducts: Joi.array(Joi.object().keys({
+    orderProducts: Joi.array().items(Joi.object().keys({
       idProduct: Joi.string().length(24).hex().required(),
       quantity: Joi.number().required(),
     })),
@@ -21,7 +21,7 @@ router.post("/api/order", celebrate({
 router.patch("/api/order/:orderId", celebrate({
   body: Joi.object().keys({
     orderPerson: Joi.string().length(24).hex(),
-    orderProducts: Joi.array(Joi.object().keys({
+    orderProducts: Joi.array().items(Joi.object().keys({
       idProduct: Joi.string().length(24).hex().required(),
       quantity: Joi.number().required(),
     })),
