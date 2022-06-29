@@ -5,7 +5,16 @@ const ForbiddenError = require("../errors/forbidden-err");
 const ANSWER = require("../utils/answers");
 
 module.exports.getAllOrders = (req, res, next) => {
-  Order.find({})
+  if (req.user.isAdmin) {
+    Order.find({})
+      .then((orders) => res.status(200).send(orders))
+      .catch(next);
+  } else {
+    next(new ForbiddenError(ANSWER.ForbiddenGetAllOrders));
+  }
+};
+module.exports.getAllOrdersByUserId = (req, res, next) => {
+  Order.find({ orderPerson: req.user._id })
     .then((orders) => res.status(200).send(orders))
     .catch(next);
 };

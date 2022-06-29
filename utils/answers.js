@@ -19,5 +19,6 @@ const ANSWER = {
   ForbiddenUpdateOrder: "У вас нет прав редактировать заказ",
   OrderSuccessDelete: "Заказ успешно удален",
   ForbiddenDeleteOrder: "У вас нет прав удалить заказ",
+  ForbiddenGetAllOrders: "У вас нет прав просматривать все заказы",
 };
 module.exports = ANSWER;

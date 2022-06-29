@@ -2,11 +2,12 @@ const router = require("express").Router();
 const { celebrate, Joi } = require("celebrate");
 
 const {
-  createOrder, updateOrder, getOrder, getAllOrders, deleteOrder,
+  createOrder, updateOrder, getOrder, getAllOrders, deleteOrder, getAllOrdersByUserId,
 } = require("../controllers/orders");
 
 router.get("/api/order/:orderId", getOrder);
 router.get("/api/allOrders", getAllOrders);
+router.get("/api/allOrdersByUser", getAllOrdersByUserId);
 router.post("/api/order", celebrate({
   body: Joi.object().keys({
     orderPerson: Joi.string().length(24).hex(),
