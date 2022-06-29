@@ -42,16 +42,21 @@ module.exports.updateProduct = (req, res, next) => {
     description, image, name, price, quantity,
   } = req.body;
   if (req.user.isAdmin) {
-    Product.create({
-      description,
-      image,
-      name,
-      price,
-      quantity,
-    })
+    Product.findByIdAndUpdate(req.productId,
+      {
+        description,
+        image,
+        name,
+        price,
+        quantity,
+      },
+      { new: true, runValidators: true, upsert: true })
+      .orFail(new Error("NotValidIdProduct"))
       .then((product) => res.status(200).send(product))
       .catch((err) => {
-        if (err.name === "ValidationError") {
+        if (err.message === "NotValidIdProduct") {
+          next(new NotFoundError(ANSWER.NotFoundProduct));
+        } else if (err.name === "ValidationError") {
           next(new BadRequestError(ANSWER.BadRequest));
         } else {
           next(err);

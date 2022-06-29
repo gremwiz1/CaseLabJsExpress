@@ -3,6 +3,7 @@ const { celebrate, Joi } = require("celebrate");
 const { login, createUser } = require("../controllers/users");
 const usersRouter = require("./users");
 const cartRouter = require("./cart");
+const orderRouter = require("./order");
 const errorsRouter = require("./errors");
 const auth = require("../middlewares/auth");
 
@@ -22,5 +23,6 @@ router.post("/api/signup", celebrate({
 router.use(auth);
 router.use("/", usersRouter);
 router.use("/", cartRouter);
+router.use("/", orderRouter);
 router.use("*", errorsRouter);
 module.exports = router;

@@ -15,5 +15,9 @@ const ANSWER = {
   ForbiddenDeleteProduct: "У вас нет прав удалять продукт",
   ForbiddenCreateProduct: "У вас нет прав создавать продукт",
   ForbiddenUpdateProduct: "У вас нет прав редактировать продукт",
+  OrderNotFound: "Нет заказа с таким id",
+  ForbiddenUpdateOrder: "У вас нет прав редактировать заказ",
+  OrderSuccessDelete: "Заказ успешно удален",
+  ForbiddenDeleteOrder: "У вас нет прав удалить заказ",
 };
 module.exports = ANSWER;
