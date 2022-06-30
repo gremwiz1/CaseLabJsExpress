@@ -23,7 +23,13 @@ module.exports.getAllOrdersByUserId = (req, res, next) => {
 };
 module.exports.getOrder = (req, res, next) => {
   Order.findById(req.params.orderId)
-    .then((order) => res.status(200).send(order))
+    .then((order) => {
+      if (order.orderPerson === req.user._id) {
+        res.status(200).send(order);
+      } else {
+        next(new ForbiddenError(ANSWER.ForbiddenGetOrder));
+      }
+    })
     .catch(next);
 };
 module.exports.createOrder = (req, res, next) => {

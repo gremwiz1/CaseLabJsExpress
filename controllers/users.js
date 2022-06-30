@@ -40,9 +40,8 @@ module.exports.updateUser = (req, res, next) => {
     });
 };
 module.exports.changeBalanceUser = (req, res, next) => {
-  const { name, email, balance } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, email, balance },
-    { new: true, runValidators: true, upsert: true })
+  const { balance } = req.body;
+  User.updateOne({ _id: req.user._id }, { $inc: { balance } })
     .orFail(new Error("NotValidIdUser"))
     .then((user) => {
       res.status(200).send(user);

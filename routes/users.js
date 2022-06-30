@@ -13,8 +13,6 @@ router.patch("/api/users/me", celebrate({
 }), updateUser);
 router.patch("/api/users/balance", celebrate({
   body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30),
-    email: Joi.string().required().email(),
     balance: Joi.number().min(0).required(),
   }),
 }), changeBalanceUser);

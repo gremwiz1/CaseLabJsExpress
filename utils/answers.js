@@ -22,5 +22,6 @@ const ANSWER = {
   ForbiddenGetAllOrders: "У вас нет прав просматривать все заказы",
   UserNotEnoughBalance: "У вас не хватает баланса для оплаты заказа",
   ProductNotEnoughQuantity: "Не хватает товара на складе",
+  ForbiddenGetOrder: "Этот заказ не ваш - вы не можете его просматривать",
 };
 module.exports = ANSWER;

@@ -10,10 +10,10 @@ router.get("/api/allOrders", getAllOrders);
 router.get("/api/allOrdersByUser", getAllOrdersByUserId);
 router.post("/api/order", celebrate({
   body: Joi.object().keys({
-    orderPerson: Joi.string().length(24).hex(),
+    orderPerson: Joi.string().length(24).hex().required(),
     orderProducts: Joi.array().items(Joi.object().keys({
       idProduct: Joi.string().length(24).hex().required(),
-      quantity: Joi.number().required(),
+      quantity: Joi.number().min(1).required(),
     })),
     comment: Joi.string(),
     orderPrice: Joi.number().required(),
@@ -23,11 +23,11 @@ router.patch("/api/order/:orderId", celebrate({
   body: Joi.object().keys({
     orderPerson: Joi.string().length(24).hex(),
     orderProducts: Joi.array().items(Joi.object().keys({
-      idProduct: Joi.string().length(24).hex().required(),
-      quantity: Joi.number().required(),
+      idProduct: Joi.string().length(24).hex(),
+      quantity: Joi.number().min(1),
     })),
     comment: Joi.string(),
-    orderPrice: Joi.number().required(),
+    orderPrice: Joi.number(),
     check: Joi.boolean(),
     orderStatus: Joi.number(),
   }),
