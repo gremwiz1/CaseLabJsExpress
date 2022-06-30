@@ -10,7 +10,6 @@ router.get("/api/allOrders", getAllOrders);
 router.get("/api/allOrdersByUser", getAllOrdersByUserId);
 router.post("/api/order", celebrate({
   body: Joi.object().keys({
-    orderPerson: Joi.string().length(24).hex().required(),
     orderProducts: Joi.array().items(Joi.object().keys({
       idProduct: Joi.string().length(24).hex().required(),
       quantity: Joi.number().min(1).required(),

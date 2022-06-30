@@ -34,9 +34,9 @@ module.exports.getOrder = (req, res, next) => {
 };
 module.exports.createOrder = (req, res, next) => {
   const {
-    orderPerson, comment, orderProducts, orderPrice,
+    comment, orderProducts, orderPrice,
   } = req.body;
-  User.findById(orderPerson)
+  User.findById(req.user._id)
     .orFail(new Error("NotValidIdUser"))
     .then((user) => {
       if (user.balance < orderPrice) {
@@ -60,10 +60,10 @@ module.exports.createOrder = (req, res, next) => {
             });
         }
         Order.create({
-          orderPerson, comment, orderProducts, orderPrice,
+          orderPerson: req.user._id, comment, orderProducts, orderPrice,
         })
           .then((order) => {
-            User.updateOne({ _id: orderPerson }, { $inc: { balance: -orderPrice } });
+            User.updateOne({ _id: req.user._id }, { $inc: { balance: -orderPrice } });
             // eslint-disable-next-line no-restricted-syntax
             for (const product of orderProducts) {
               Product.updateOne({ _id: product.idProduct },
