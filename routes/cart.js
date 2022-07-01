@@ -30,7 +30,7 @@ router.patch("/api/product/:productId", celebrate({
     image: Joi.string().required().custom(method),
     name: Joi.string().required(),
     price: Joi.number().required(),
-    quantity: Joi.number(),
+    quantity: Joi.number().required(),
   }),
 }), updateProduct);
 router.delete("/api/product/:productId", celebrate({
