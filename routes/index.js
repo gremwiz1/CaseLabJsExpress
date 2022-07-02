@@ -2,7 +2,7 @@ const router = require("express").Router();
 const { celebrate, Joi } = require("celebrate");
 const { login, createUser } = require("../controllers/users");
 const usersRouter = require("./users");
-const cartRouter = require("./cart");
+const productRouter = require("./product");
 const orderRouter = require("./order");
 const errorsRouter = require("./errors");
 const auth = require("../middlewares/auth");
@@ -22,7 +22,7 @@ router.post("/api/signup", celebrate({
 }), createUser);
 router.use(auth);
 router.use("/", usersRouter);
-router.use("/", cartRouter);
+router.use("/", productRouter);
 router.use("/", orderRouter);
 router.use("*", errorsRouter);
 module.exports = router;
