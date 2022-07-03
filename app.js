@@ -11,7 +11,7 @@ const CONFIG_DEV = require("./utils/configDev");
 const { DB_CONNECTION_STRING, NODE_ENV } = process.env;
 const { PORT = 4000 } = process.env;
 const allowedCors = [
-  "localhost:3000",
+  "localhost:4000",
 ];
 const app = express();
 app.use(helmet());
