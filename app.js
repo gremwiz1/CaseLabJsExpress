@@ -11,7 +11,8 @@ const CONFIG_DEV = require("./utils/configDev");
 const { DB_CONNECTION_STRING, NODE_ENV } = process.env;
 const { PORT = 4000 } = process.env;
 const allowedCors = [
-  "localhost:4000",
+  "http://localhost:4000",
+  "http://localhost:3000",
 ];
 const app = express();
 app.use(helmet());
@@ -27,7 +28,7 @@ app.use(limiter);
 app.use((req, res, next) => {
   const { origin } = req.headers; // Сохраняем источник запроса в переменную origin
   // проверяем, что источник запроса есть среди разрешённых
-  const { methodHttp } = req; // Сохраняем тип запроса (HTTP-метод) в соответствующую переменную
+  const { method } = req; // Сохраняем тип запроса (HTTP-метод) в соответствующую переменную
   const requestHeaders = req.headers["access-control-request-headers"];
   const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
   if (allowedCors.includes(origin)) {
@@ -35,7 +36,7 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", origin);
     res.header("Access-Control-Allow-Credentials", "true");
   }
-  if (methodHttp === "OPTIONS") {
+  if (method === "OPTIONS") {
     res.header("Access-Control-Allow-Methods", DEFAULT_ALLOWED_METHODS);
     res.header("Access-Control-Allow-Headers", requestHeaders);
     return res.end();
